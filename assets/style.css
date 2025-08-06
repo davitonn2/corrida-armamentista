@@ -1,16 +1,55 @@
+/* =================================================================
+   STYLESHEET: "SALA DE CONTROLE NUCLEAR"
+   THEME: COLD WAR / TERMINAL / GLITCH / NEON
+   ================================================================= */
+
+/* ---- 1. FONTES E VARIÁVEIS DE TEMA ---- */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
+
+:root {
+    --color-bg: #0d1117;
+    --color-bg-offset: #161b22;
+    --color-text: #c9d1d9;
+    --color-primary-glow: #ff4d4d;
+    --color-secondary-glow: #00eaff; /* Um azul/ciano para contraste */
+    --font-primary: 'Orbitron', sans-serif; /* Para títulos */
+    --font-secondary: 'Share Tech Mono', monospace; /* Para textos e UI */
+    --scanline-bg: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.3),
+        rgba(0, 0, 0, 0.3) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* ---- Configurações Gerais e Fontes ---- */
+/* ---- 2. ESTILO GLOBAL E ANIMAÇÃO DE FUNDO ---- */
 body {
-    font-family: 'Roboto Condensed', sans-serif;
-    background-color: #121212;
-    color: #f0f0f0;
-    margin: 0;
-    line-height: 1.6;
+    font-family: var(--font-secondary);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.7;
+    overflow-x: hidden; /* Previne scroll horizontal */
+}
+
+/* Animação de estática/ruído no fundo para dar um ar de monitor antigo */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url(https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTk4Y2QzY2VjY2ZkZGY1NzIyZDYyODJmZGIyZGUzNmIzMmM1ZWM2YiZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/3o7TKS0524d14b0D3G/giphy.gif);
+    opacity: 0.03;
+    z-index: -1;
+    pointer-events: none;
 }
 
 .container {
@@ -20,35 +59,21 @@ body {
     overflow: hidden;
 }
 
-h1, h2, h3, h4 {
-    font-family: 'Russo One', sans-serif;
-    color: #ff4d4d; /* Vermelho para destaque */
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-p {
-    font-size: 1.1rem;
-}
-
-section {
-    padding: 4rem 0;
-    border-bottom: 1px solid #333;
-}
-
-/* ---- Cabeçalho Principal ---- */
+/* ---- 3. CABEÇALHO PRINCIPAL - EFEITO GLITCH ---- */
 .main-header {
     height: 100vh;
-    background: url('/img/EUS\ e\ URSS.webp') no-repeat center center/cover;
+    background: url('../img/EUS\ e\ URSS.webp') no-repeat center center/cover;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
+    border-bottom: 2px solid var(--color-primary-glow);
+    box-shadow: 0 5px 30px -10px var(--color-primary-glow);
 }
 
 .header-overlay {
-    background-color: rgba(0, 0, 0, 0.5);
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.9) 100%);
     position: absolute;
     top: 0;
     left: 0;
@@ -60,149 +85,250 @@ section {
     align-items: center;
 }
 
+/* Efeito de Glitch no Título Principal (parece complexo e trabalhado) */
 .main-header h1 {
-    font-size: 4rem;
-    margin-bottom: 0.5rem;
-    animation: fadeInDown 1.5s;
+    font-family: var(--font-primary);
+    font-size: 5rem;
+    color: #fff;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px #fff, 0 0 20px var(--color-primary-glow), 0 0 30px var(--color-primary-glow);
+    position: relative;
+    animation: glitch 2.5s infinite;
+}
+
+.main-header h1::before,
+.main-header h1::after {
+    content: 'A SOMBRA DA GUERRA FRIA';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-bg);
+    overflow: hidden;
+}
+
+.main-header h1::before {
+    left: 2px;
+    text-shadow: -2px 0 var(--color-primary-glow);
+    animation: glitch-anim-1 2.5s infinite reverse;
+}
+
+.main-header h1::after {
+    left: -2px;
+    text-shadow: -2px 0 var(--color-secondary-glow), 2px 2px var(--color-primary-glow);
+    animation: glitch-anim-2 2.5s infinite reverse;
 }
 
 .main-header h2 {
-    font-size: 1.8rem;
-    color: #ccc;
-    animation: fadeInUp 1.5s;
+    font-size: 1.5rem;
+    color: var(--color-text);
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    text-shadow: 0 0 5px var(--color-secondary-glow);
+    animation: fadeInText 3s 1s both;
 }
 
-/* ---- Seções de Conteúdo ---- */
-#intro {
-    background-color: #1a1a1a;
+
+/* ---- 4. ESTILO GERAL DAS SEÇÕES ---- */
+section {
+    padding: 6rem 0;
+    border-bottom: 1px solid rgba(255, 77, 77, 0.2);
+    background-color: var(--color-bg-offset);
+    position: relative;
+}
+
+section h3 {
+    font-family: var(--font-primary);
     text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 5px var(--color-primary-glow), 0 0 10px var(--color-primary-glow);
+    letter-spacing: 2px;
 }
 
-#nuclear-stockpile {
-    background-color: #212121;
+p {
+    font-size: 1.2rem;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 2rem auto;
 }
 
+/* ---- 5. GRÁFICO E CARDS - ESTILO "PAINEL DE DADOS" ---- */
 .chart-container {
-    background-color: #333;
+    background: var(--scanline-bg), linear-gradient(rgba(13, 17, 23, 0.9), rgba(22, 27, 34, 0.9));
+    border: 1px solid var(--color-secondary-glow);
     padding: 1.5rem;
     border-radius: 8px;
-    border: 1px solid #444;
+    box-shadow: 0 0 20px rgba(0, 234, 255, 0.2);
 }
 
-.interactive-hint {
-    text-align: center;
-    font-style: italic;
-    color: #aaa;
+.cards-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.card {
+    background: linear-gradient(145deg, var(--color-bg-offset), var(--color-bg));
+    border: 1px solid rgba(255, 77, 77, 0.3);
+    border-radius: 10px;
+    padding: 1.5rem;
+    width: 30%;
+    min-width: 280px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: inset 0 0 10px rgba(255, 77, 77, 0.1);
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 0 25px var(--color-primary-glow);
+    border-color: var(--color-primary-glow);
+}
+
+.card h4 {
+    font-family: var(--font-primary);
+    border-bottom: 1px solid var(--color-primary-glow);
+    padding-bottom: 0.5rem;
     margin-bottom: 1rem;
+    color: #fff;
 }
 
-/* ---- Linha do Tempo ---- */
+
+/* ---- 6. LINHA DO TEMPO - EFEITO NEON ---- */
+/* ---- 6. LINHA DO TEMPO - ESTILO "DIAGRAMA DE MISSÃO" ---- */
 #timeline {
-    background: url('../img/CHINA-X-EUA-735x400.jpg') no-repeat center center/cover;
-    filter: blur(0px) brightness(80%);
-    z-index: -10;
+    background-color: var(--color-bg);
 }
 
 .timeline-container {
     position: relative;
     width: 100%;
     padding: 2rem 0;
-    z-index: 10000;
 }
 
+/* Linha central brilhante */
 .timeline-container::after {
     content: '';
     position: absolute;
     width: 4px;
-    background-color: #ff4d4d;
+    background-color: var(--color-primary-glow);
+    box-shadow: 0 0 15px var(--color-primary-glow);
     top: 0;
     bottom: 0;
     left: 50%;
     margin-left: -2px;
 }
 
+/* Estilo base para cada evento na timeline */
 .timeline-event {
-    padding: 10px 40px;
+    padding: 10px 0; /* Espaçamento vertical */
     position: relative;
-    background-color: inherit;
     width: 50%;
-    cursor: pointer;
-    transition: transform 0.3s;
 }
 
-.timeline-event:hover {
-    transform: scale(1.05);
-}
-
-.timeline-event.left {
-    left: 0;
-    text-align: right;
-}
-
-.timeline-event.right {
-    left: 50%;
-}
-
+/* O círculo na linha do tempo */
 .timeline-event::after {
     content: '';
     position: absolute;
     width: 20px;
     height: 20px;
-    right: -12px;
-    background-color: #f0f0f0;
-    border: 4px solid #ff4d4d;
-    top: 15px;
+    background-color: var(--color-bg);
+    border: 4px solid var(--color-primary-glow);
     border-radius: 50%;
+    top: 30px; /* Alinha o círculo com o "braço" conector */
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+/* O "braço" conector que vai da linha central até o evento */
+.timeline-event::before {
+    content: '';
+    position: absolute;
+    width: 25%; /* Comprimento do braço */
+    height: 3px;
+    background-color: var(--color-secondary-glow);
+    box-shadow: 0 0 10px var(--color-secondary-glow);
+    top: 38px; /* Alinha verticalmente com o círculo */
     z-index: 1;
 }
 
+/* Posicionamento para eventos da ESQUERDA */
+.timeline-event.left {
+    left: 0;
+    padding-left: 20%; /* Aumenta o espaço do centro */
+}
+.timeline-event.left::after {
+    right: -12px;
+}
+.timeline-event.left::before {
+    right: 0;
+}
+
+/* Posicionamento para eventos da DIREITA */
+.timeline-event.right {
+    left: 50%;
+    padding-right: 20%; /* Aumenta o espaço do centro */
+}
 .timeline-event.right::after {
     left: -8px;
 }
+.timeline-event.right::before {
+    left: 0;
+}
 
+
+/* Caixa de conteúdo do evento */
 .event-content {
     padding: 20px 30px;
-    background-color: #333;
-    position: relative;
+    background-color: var(--color-bg-offset);
+    border: 1px solid rgba(0, 234, 255, 0.3);
     border-radius: 6px;
+    box-shadow: inset 0 0 15px rgba(0, 234, 255, 0.1);
+    position: relative;
+    transition: all 0.3s ease;
 }
 
-.event-content h4 {
-    margin-top: 0;
-    color: #fff;
+/* Efeito de hover para destacar o evento selecionado */
+.timeline-event:hover::after {
+    transform: scale(1.5);
+    box-shadow: 0 0 25px var(--color-primary-glow);
 }
 
-.event-description {
-    display: none; /* Escondido por padrão */
-    margin-top: 10px;
-    color: #ccc;
+.timeline-event:hover .event-content {
+    border-color: var(--color-secondary-glow);
+    box-shadow: 0 0 25px rgba(0, 234, 255, 0.4);
+    transform: scale(1.03);
 }
 
 
-/* ---- Seção de Simulação ---- */
-#simulation {
+/* ---- 7. MAPA E SIMULAÇÃO - ESTILO "TERMINAL DE ALVO" ---- */
+/* ---- 7. MAPA E SIMULAÇÃO - ESTILO "TERMINAL DE ALVO" ---- */
+#simulation { /* Adicionei para garantir o contexto */
     background: #212121;
     text-align: center;
 }
 
 #map-container {
-    width: 100%;
-    height: 500px; /* Altura do seu mapa */
-    border: 2px solid #ff4d4d;
-    position: relative; /* Essencial para o posicionamento do círculo */
+    height: 500px;
+    border: 2px solid var(--color-primary-glow);
+    position: relative;
     margin: 2rem auto;
-    background-color: #333; /* Cor de fundo enquanto o mapa carrega */
+    background-color: #000;
+    border-radius: 5px;
+    box-shadow: 0 0 30px var(--color-primary-glow), inset 0 0 20px rgba(255, 77, 77, 0.3);
 }
 
-/* O div do mapa deve ficar na camada de baixo */
 #map {
     width: 100%;
     height: 100%;
     position: relative;
-    z-index: 1; /* Camada base */
+    z-index: 1;
+    /* Filtro para deixar o mapa com um ar mais "militar/noturno" */
+    filter: grayscale(80%) contrast(1.2) brightness(0.8);
 }
 
-/* O círculo de impacto fica na camada superior */
 #impact-radius {
     position: absolute;
     width: 150px;
@@ -213,84 +339,110 @@ section {
     transform: translate(-50%, -50%);
     box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
     animation: pulse 1.5s infinite;
-    z-index: 999; /* Garante que fique sobre o mapa */
-    pointer-events: none; /* Permite clicar "através" do círculo no mapa */
+    z-index: 999;
+    pointer-events: none;
 }
 
-/* Classe para esconder o círculo de impacto inicialmente */
+/* ============================================================= */
+/* ==== A CORREÇÃO ESTÁ AQUI ==== */
+/* Classe para esconder o círculo de impacto e outros elementos */
 .hidden {
-    display: none;
+    display: none !important;
 }
+/* ============================================================= */
+
 
 #reset-simulation-btn {
-    background-color: #ff4d4d;
-    color: #fff;
-    border: none;
+    font-family: var(--font-primary);
+    background: transparent;
+    border: 2px solid var(--color-primary-glow);
+    color: var(--color-primary-glow);
     padding: 12px 25px;
-    font-family: 'Russo One', sans-serif;
     cursor: pointer;
     text-transform: uppercase;
     border-radius: 5px;
-    transition: background-color 0.3s;
-    margin-top: 1rem; /* Adiciona um espaço acima do botão */
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    text-shadow: 0 0 5px var(--color-primary-glow);
 }
 
 #reset-simulation-btn:hover {
-    background-color: #e60000;
+    background-color: var(--color-primary-glow);
+    color: #fff;
+    box-shadow: 0 0 20px var(--color-primary-glow);
 }
 
-@keyframes pulse {
-    0% { transform: translate(-50%, -50%) scale(0.95); box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7); }
-    70% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 20px rgba(255, 77, 77, 0); }
-    100% { transform: translate(-50%, -50%) scale(0.95); box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); }
-}
-
-
-/* ---- Seção de Comparação ---- */
-.cards-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-}
-
-.card {
-    background-color: #333;
-    padding: 1.5rem;
-    border-radius: 8px;
-    width: 30%;
-    min-width: 280px;
-    border-left: 5px solid #ff4d4d;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-}
-
-/* ---- Rodapé ---- */
+/* ---- 8. FOOTER ---- */
 footer {
     text-align: center;
     padding: 2rem;
     background-color: #000;
     color: #888;
     font-size: 0.9rem;
+    border-top: 1px solid #333;
 }
 
-/* ---- Classes de Utilidade e Animações ---- */
-.hidden {
-    display: none;
+/* ---- ANIMAÇÕES ---- */
+
+/* Animação de Glitch (para o título) */
+@keyframes glitch {
+    0%, 100% { transform: none; }
+    5% { transform: skewX(2deg); }
+    10% { transform: skewX(-2deg); }
+    20% { transform: skewX(5deg) translateX(5px); }
+    30% { transform: skewX(-5deg) translateX(-5px); }
+    40% { transform: skewX(2deg); }
+    50% { transform: skewX(-2deg); }
+    60% { transform: skewX(0); }
+}
+@keyframes glitch-anim-1 {
+    0% { clip-path: inset(45% 0 53% 0); }
+    5% { clip-path: inset(5% 0 90% 0); }
+    10% { clip-path: inset(82% 0 3% 0); }
+    15% { clip-path: inset(45% 0 53% 0); }
+    20% { clip-path: inset(50% 0 30% 0); }
+    25% { clip-path: inset(22% 0 70% 0); }
+    30% { clip-path: inset(95% 0 2% 0); }
+    35% { clip-path: inset(45% 0 53% 0); }
+    40% { clip-path: inset(75% 0 5% 0); }
+    45% { clip-path: inset(10% 0 85% 0); }
+    50% { clip-path: inset(45% 0 53% 0); }
+    55% { clip-path: inset(60% 0 30% 0); }
+    60% { clip-path: inset(0 0 0 0); }
+    65% { clip-path: inset(90% 0 5% 0); }
+    70% { clip-path: inset(5% 0 90% 0); }
+    75% { clip-path: inset(45% 0 53% 0); }
+    80% { clip-path: inset(20% 0 60% 0); }
+    85% { clip-path: inset(70% 0 10% 0); }
+    90% { clip-path: inset(30% 0 50% 0); }
+    95% { clip-path: inset(80% 0 10% 0); }
+}
+@keyframes glitch-anim-2 {
+     0% { clip-path: inset(82% 0 3% 0); }
+     5% { clip-path: inset(45% 0 53% 0); }
+    10% { clip-path: inset(5% 0 90% 0); }
+    15% { clip-path: inset(70% 0 20% 0); }
+    20% { clip-path: inset(45% 0 53% 0); }
+    25% { clip-path: inset(10% 0 80% 0); }
+    30% { clip-path: inset(60% 0 30% 0); }
+    35% { clip-path: inset(90% 0 5% 0); }
+    40% { clip-path: inset(30% 0 60% 0); }
+    45% { clip-path: inset(75% 0 5% 0); }
+    50% { clip-path: inset(45% 0 53% 0); }
+    55% { clip-path: inset(5% 0 90% 0); }
+    60% { clip-path: inset(82% 0 3% 0); }
+    65% { clip-path: inset(25% 0 70% 0); }
+    70% { clip-path: inset(65% 0 25% 0); }
+    75% { clip-path: inset(45% 0 53% 0); }
+    80% { clip-path: inset(15% 0 75% 0); }
+    85% { clip-path: inset(55% 0 35% 0); }
+    90% { clip-path: inset(95% 0 2% 0); }
+    95% { clip-path: inset(5% 0 90% 0); }
 }
 
-@keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+@keyframes fadeInText {
+    from { opacity: 0; letter-spacing: 15px; }
+    to { opacity: 1; letter-spacing: 5px; }
 }
 
 @keyframes pulse {
@@ -299,10 +451,11 @@ footer {
     100% { transform: translate(-50%, -50%) scale(0.95); box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); }
 }
 
-/* ---- Responsividade ---- */
+
+/* ---- RESPONSIVIDADE ---- */
 @media(max-width: 768px) {
     .main-header h1 { font-size: 2.5rem; }
-    .main-header h2 { font-size: 1.2rem; }
+    .main-header h2 { font-size: 1rem; }
     
     .timeline-container::after { left: 31px; }
     .timeline-event { width: 100%; padding-left: 70px; padding-right: 25px; }

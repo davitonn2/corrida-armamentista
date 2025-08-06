@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     // ---- GRÁFICO DE OGIVAS NUCLEARES (Chart.js) ----
-    // Verifica se o elemento do gráfico existe antes de tentar usá-lo
     const chartElement = document.getElementById('nuclearChart');
     if (chartElement) {
+        // ... (código do gráfico, sem alterações)
         const nuclearData = {
             labels: ['1945', '1950', '1955', '1960', '1965', '1970', '1975', '1980', '1985', '1990'],
             usa: [6, 304, 3057, 20434, 31139, 26034, 27519, 24093, 23368, 21386],
@@ -80,45 +80,44 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ---- MAPA INTERATIVO E SIMULAÇÃO DE IMPACTO ----
-    // Verifica se o container do mapa existe na página
     const mapDiv = document.getElementById('map');
     if (mapDiv) {
-        // 1. INICIA O MAPA LEAFLET
-        var map = L.map('map').setView([45.0, 25.0], 3); // Centralizado na Europa/Leste Europeu
+        var map = L.map('map').setView([45.0, 25.0], 3);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Adiciona marcadores de exemplo para o seu tema
         L.marker([52.52, 13.40]).addTo(map).bindPopup('<b>Berlim</b><br>O epicentro da divisão da Guerra Fria.');
         L.marker([38.90, -77.03]).addTo(map).bindPopup('<b>Washington, D.C.</b><br>Capital dos Estados Unidos.');
         L.marker([55.75, 37.61]).addTo(map).bindPopup('<b>Moscou</b><br>Capital da União Soviética.');
         L.marker([17.97, -66.97]).addTo(map).bindPopup('<b>Cuba</b><br>Local da Crise dos Mísseis de 1962.');
 
-        // 2. PREPARA A SIMULAÇÃO DE IMPACTO
         const impactRadius = document.getElementById('impact-radius');
-        const resetButton = document.getElementById('reset-simulation-btn');
-
-        // 3. ESCUTA O CLIQUE NO MAPA
+        
         map.on('click', function(e) {
-            // Pega as coordenadas do clique dentro do container do mapa
             const x = e.containerPoint.x;
             const y = e.containerPoint.y;
 
-            // Posiciona e mostra o círculo de impacto
             if (impactRadius) {
                 impactRadius.style.left = `${x}px`;
                 impactRadius.style.top = `${y}px`;
                 impactRadius.classList.remove('hidden');
             }
         });
-
-        // Adiciona funcionalidade ao botão de reset
-        if (resetButton && impactRadius) {
-            resetButton.addEventListener('click', function() {
+    }
+    
+    // ---- CORREÇÃO DO BOTÃO DE RESET ----
+    // Movemos a lógica do botão para fora do bloco do mapa, 
+    // para que funcione independentemente.
+    const resetButton = document.getElementById('reset-simulation-btn');
+    if (resetButton) {
+        resetButton.addEventListener('click', function() {
+            // Ele procura o círculo de impacto no momento do clique.
+            const impactRadius = document.getElementById('impact-radius');
+            if (impactRadius) {
                 impactRadius.classList.add('hidden');
-            });
-        }
+            }
+        });
     }
 });
