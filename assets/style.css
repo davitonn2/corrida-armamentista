@@ -219,6 +219,7 @@ p {
     bottom: 0;
     left: 50%;
     margin-left: -2px;
+    border-radius: 25px;
 }
 
 /* Estilo base para cada evento na timeline */
@@ -242,25 +243,13 @@ p {
     transition: all 0.3s ease;
 }
 
-/* O "braço" conector que vai da linha central até o evento */
-.timeline-event::before {
-    content: '';
-    position: absolute;
-    width: 25%; /* Comprimento do braço */
-    height: 3px;
-    background-color: var(--color-secondary-glow);
-    box-shadow: 0 0 10px var(--color-secondary-glow);
-    top: 38px; /* Alinha verticalmente com o círculo */
-    z-index: 1;
-}
-
 /* Posicionamento para eventos da ESQUERDA */
 .timeline-event.left {
     left: 0;
     padding-left: 20%; /* Aumenta o espaço do centro */
 }
 .timeline-event.left::after {
-    right: -12px;
+    right: -15px;
 }
 .timeline-event.left::before {
     right: 0;
@@ -272,7 +261,7 @@ p {
     padding-right: 20%; /* Aumenta o espaço do centro */
 }
 .timeline-event.right::after {
-    left: -8px;
+    left: -13px;
 }
 .timeline-event.right::before {
     left: 0;
@@ -281,13 +270,15 @@ p {
 
 /* Caixa de conteúdo do evento */
 .event-content {
-    padding: 20px 30px;
+    padding: 20px 10px;
     background-color: var(--color-bg-offset);
     border: 1px solid rgba(0, 234, 255, 0.3);
     border-radius: 6px;
     box-shadow: inset 0 0 15px rgba(0, 234, 255, 0.1);
     position: relative;
     transition: all 0.3s ease;
+    margin: 1rem;
+    text-align: center;
 }
 
 /* Efeito de hover para destacar o evento selecionado */
