@@ -1,133 +1,108 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NUCLEAR COMMANDER - Guerra Fria</title>
+    <title>Corrida Armamentista: EUA vs. URSS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Russo+One&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link rel="stylesheet" href="assets/style.css">
 </head>
+
 <body>
-    <div class="game-container">
-        <!-- Header -->
-        <header class="game-header">
-            <h1 class="game-title">☢ NUCLEAR COMMANDER ☢</h1>
-            <p class="game-subtitle">Comande uma superpotência na Guerra Fria</p>
-        </header>
-
-        <!-- Country Selection -->
-        <div id="countrySelection" class="country-selection">
-            <div class="country-card" data-country="usa">
-                <div class="country-flag">🇺🇸</div>
-                <div class="country-name">ESTADOS UNIDOS</div>
-                <div>Tecnologia Avançada</div>
-            </div>
-            <div class="country-card" data-country="ussr">
-                <div class="country-flag">🇷🇺</div>
-                <div class="country-name">UNIÃO SOVIÉTICA</div>
-                <div>Produção Massiva</div>
-            </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <header class="main-header">
+        <div class="header-overlay">
+            <h1>A Sombra da Guerra Fria</h1>
+            <h2>A Corrida Armamentista entre EUA e URSS</h2>
         </div>
+    </header>
 
-        <button id="startGame" class="start-btn" style="display: none;">INICIAR MISSÃO</button>
+    <main>
+        <section id="intro">
+            <div class="container">
+                <h3>O Equilíbrio do Terror</h3>
+                <p>A Corrida Armamentista foi uma competição intensa por superioridade militar entre os Estados Unidos e
+                    a União Soviética durante a Guerra Fria (1947-1991). Ambos os lados acumularam arsenais nucleares
+                    massivos, cada um capaz de aniquilar o outro, um conceito conhecido como "Destruição Mútua
+                    Assegurada" (MAD). Este site explora os dados, os eventos e a tensão dessa era.</p>
+            </div>
+        </section>
 
-        <!-- Game Interface -->
-        <div id="gameInterface" class="game-interface">
-            <!-- Resources Panel -->
-            <div class="resources-panel">
-                <h3>📊 RECURSOS</h3>
-                <div class="resource-item">
-                    <span>💰 Orçamento:</span>
-                    <span class="resource-value" id="budget">1000B</span>
-                </div>
-                <div class="resource-item">
-                    <span>🔬 Tecnologia:</span>
-                    <span class="resource-value" id="technology">50</span>
-                </div>
-                <div class="resource-item">
-                    <span>🤝 Diplomacia:</span>
-                    <span class="resource-value" id="diplomacy">50</span>
-                </div>
-                <div class="resource-item">
-                    <span>👥 Apoio Popular:</span>
-                    <span class="resource-value" id="support">75%</span>
-                </div>
-                <div class="resource-item">
-                    <span>🎯 Turno:</span>
-                    <span class="resource-value" id="turn">1</span>
+        <section id="nuclear-stockpile">
+            <div class="container">
+                <h3>Gráfico: Estoque de Ogivas Nucleares (1945-1990)</h3>
+                <p class="interactive-hint">Passe o mouse sobre as linhas para ver os dados de cada ano.</p>
+                <div class="chart-container">
+                    <canvas id="nuclearChart"></canvas>
                 </div>
             </div>
+        </section>
 
-            <!-- Main Game Area -->
-            <div class="main-game">
-                <div class="world-tension">
-                    <h3>🌍 TENSÃO MUNDIAL</h3>
-                    <div class="tension-meter">
-                        <div class="tension-fill" id="tensionFill"></div>
+        <section id="timeline">
+            <div class="container">
+                <h3>Linha do Tempo de Eventos Cruciais</h3>
+                <div class="timeline-container">
+                </div>
+            </div>
+        </section>
+
+        <section id="simulation">
+            <div class="container">
+                <h3>Simulação de Impacto: O Poder da Dissuasão</h3>
+                <p>Clique em um local no mapa para simular o raio teórico de devastação de uma única ogiva (Tsar Bomba,
+                    50 Megatons).</p>
+
+                <div id="map-container">
+                    <div id="map"></div>
+                    <div id="impact-radius" class="hidden"></div>
+                </div>
+
+                <button id="reset-simulation-btn">Resetar Simulação</button>
+            </div>
+        </section>
+
+        <section id="comparison">
+            <div class="container">
+                <h3>Comparativo de Poderio</h3>
+                <div class="cards-container">
+                    <div class="card">
+                        <h4>Gastos Militares (Pico)</h4>
+                        <p><strong>EUA:</strong> Atingiu cerca de $600 bilhões anuais (ajustado pela inflação), focando
+                            em tecnologia avançada e força naval/aérea.</p>
+                        <p><strong>URSS:</strong> Estima-se que chegou a comprometer até 25% do seu PIB, um fardo
+                            econômico insustentável.</p>
                     </div>
-                    <p id="tensionLevel">BAIXA (25%)</p>
-                </div>
-
-                <div class="arsenal-display">
-                    <div class="arsenal-card">
-                        <h4>🚀 SEU ARSENAL</h4>
-                        <div class="arsenal-number" id="playerArsenal">150</div>
-                        <p>Ogivas Nucleares</p>
+                    <div class="card">
+                        <h4>Tecnologia de Mísseis</h4>
+                        <p><strong>EUA:</strong> Desenvolveu os mísseis Minuteman (baseados em silos) e os mísseis
+                            Polaris/Trident (lançados por submarinos).</p>
+                        <p><strong>URSS:</strong> Famosa por seus mísseis balísticos intercontinentais (ICBMs) de grande
+                            porte, como o R-36 (SS-18 "Satan").</p>
                     </div>
-                    <div class="arsenal-card">
-                        <h4>💥 INIMIGO</h4>
-                        <div class="arsenal-number" id="enemyArsenal">120</div>
-                        <p>Ogivas Nucleares</p>
+                    <div class="card">
+                        <h4>Corrida Espacial</h4>
+                        <p>A competição tecnológica se estendeu ao espaço. A URSS teve marcos iniciais como o Sputnik e
+                            o primeiro homem no espaço, enquanto os EUA responderam com o Projeto Apollo e a chegada à
+                            Lua.</p>
                     </div>
                 </div>
-
-                <div class="action-buttons">
-                    <button class="action-btn" onclick="buildWeapons()">🔨 CONSTRUIR ARMAS</button>
-                    <button class="action-btn" onclick="researchTech()">🔬 PESQUISAR</button>
-                    <button class="action-btn" onclick="diplomacy()">🤝 DIPLOMACIA</button>
-                    <button class="action-btn" onclick="espionage()">🕵️ ESPIONAGEM</button>
-                </div>
-
-                <button class="action-btn" onclick="nextTurn()" style="width: 100%; margin-top: 20px; background: linear-gradient(45deg, #ffff00, #ffaa00);">
-                    ⏭️ PRÓXIMO TURNO
-                </button>
             </div>
+        </section>
+    </main>
 
-            <!-- Event Panel -->
-            <div class="event-panel">
-                <h3 class="event-title">📰 EVENTO ATUAL</h3>
-                <div class="event-description" id="eventDescription">
-                    Bem-vindo, Comandante! A Guerra Fria começou. Suas decisões determinarão o destino do mundo.
-                </div>
-                <div class="decision-buttons" id="decisionButtons">
-                    <!-- Buttons will be added dynamically -->
-                </div>
-            </div>
-        </div>
+    <footer>
+        <p>Imagens e dados são representações do período da Guerra Fria.</p>
+    </footer>
 
-        <!-- Game Stats -->
-        <div class="game-stats" id="gameStats" style="display: none;">
-            <div class="stat-card">
-                <div class="stat-number" id="totalTurns">0</div>
-                <div class="stat-label">Turnos Jogados</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="crisisCount">0</div>
-                <div class="stat-label">Crises Evitadas</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="techLevel">1</div>
-                <div class="stat-label">Nível Tech</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="score">0</div>
-                <div class="stat-label">Pontuação</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Notification -->
-    <div id="notification" class="notification"></div>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 <script src="JS/Main.js"></script>
+
 </html>
