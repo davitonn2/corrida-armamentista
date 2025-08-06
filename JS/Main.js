@@ -81,12 +81,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ---- MAPA INTERATIVO E SIMULAÇÃO DE IMPACTO ----
     const mapDiv = document.getElementById('map');
-    if (mapDiv) {
-        var map = L.map('map').setView([45.0, 25.0], 3);
+if (mapDiv) {
+    var zoomFixo = 9; // O nível de zoom que você quer travar
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+    var map = L.map('map', {
+        // Lógica de trava principal
+        minZoom: zoomFixo,
+        maxZoom: zoomFixo,
+        
+        // Remove os botões de zoom que não funcionam mais
+        zoomControl: false,
+
+        // Opcional: desativa outras interações para um bloqueio mais completo
+        scrollWheelZoom: false,
+        doubleClickZoom: false,
+        touchZoom: false
+        
+    }).setView([45.0, 25.0], zoomFixo);
+
+    // O resto do seu código do mapa...
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
 
         L.marker([52.52, 13.40]).addTo(map).bindPopup('<b>Berlim</b><br>O epicentro da divisão da Guerra Fria.');
         L.marker([38.90, -77.03]).addTo(map).bindPopup('<b>Washington, D.C.</b><br>Capital dos Estados Unidos.');
