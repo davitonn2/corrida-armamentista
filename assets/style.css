@@ -29,6 +29,8 @@
     box-sizing: border-box;
 }
 
+
+
 /* ---- 2. ESTILO GLOBAL E ANIMAÇÃO DE FUNDO ---- */
 body {
     font-family: var(--font-secondary);
@@ -54,9 +56,9 @@ body::after {
     background-image: repeating-linear-gradient(
         to right, /* Direção do gradiente, que cria linhas verticais */
         transparent,
-        transparent 150px, /* Espaço entre as linhas */
-        rgba(0, 234, 255, 0.05) 150px, /* Cor da linha (ciano bem sutil) */
-        rgba(0, 234, 255, 0.05) 151px /* Espessura da linha (1px) */
+        transparent 350px, /* Espaço entre as linhas */
+        rgba(0, 234, 255, 0.05) 350px, /* Cor da linha (ciano bem sutil) */
+        rgba(0, 234, 255, 0.05) 351px /* Espessura da linha (1px) */
     );
 
     /* Garante que a camada de linhas não bloqueie cliques nos elementos do site */
@@ -86,6 +88,7 @@ body::before {
     padding: 2rem;
     position: relative;
     z-index: 10;
+    text-align: center;
 }
 
 /* ---- 3. CABEÇALHO PRINCIPAL - EFEITO GLITCH ---- */
@@ -98,6 +101,7 @@ body::before {
     align-items: center;
     text-align: center;
     box-shadow: 0 5px 30px -10px var(--color-primary-glow);
+    z-index: 10;
 }
 
 .header-overlay {
@@ -228,7 +232,7 @@ section {
 section h3 {
     font-family: var(--font-primary);
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 4rem;
     margin-bottom: 2rem;
     text-shadow: 0 0 5px var(--color-primary-glow), 0 0 10px var(--color-primary-glow);
     letter-spacing: 2px;
@@ -237,10 +241,14 @@ section h3 {
 }
 
 p {
-    font-size: 1.2rem;
+    font-size: 2rem;
     text-align: center;
-    max-width: 800px;
-    margin: 0 auto 2rem auto;
+    margin: 0;
+}
+
+
+.Equilibrio, .timelineTexto, .Comparativo {
+    font-size: 4rem;
 }
 
 /* ---- 5. GRÁFICO E CARDS - ESTILO "PAINEL DE DADOS" ---- */
@@ -345,7 +353,8 @@ p {
 /* Posicionamento para eventos da ESQUERDA */
 .timeline-event.left {
     left: 0;
-    padding-left: 20%; /* Aumenta o espaço do centro */
+    /* Diminuído de 20% para 10% para aumentar a largura do card */
+    padding-left: 10%; 
 }
 .timeline-event.left::after {
     right: -15px;
@@ -357,7 +366,8 @@ p {
 /* Posicionamento para eventos da DIREITA */
 .timeline-event.right {
     left: 50%;
-    padding-right: 20%; /* Aumenta o espaço do centro */
+    /* Diminuído de 20% para 10% para aumentar a largura do card */
+    padding-right: 5%;
 }
 .timeline-event.right::after {
     left: -13px;
