@@ -252,6 +252,17 @@ p {
 }
 
 /* ---- 5. GRÁFICO E CARDS - ESTILO "PAINEL DE DADOS" ---- */
+/* =================================================================
+   7.1 GRÁFICO - ESTILOS BASE E RESPONSIVIDADE
+   ================================================================= */
+
+#nuclear-stockpile .interactive-hint {
+    font-size: 1rem;
+    color: var(--color-secondary-glow);
+    text-shadow: 0 0 8px rgba(0, 234, 255, 0.5);
+    margin-bottom: 1.5rem;
+}
+
 .chart-container {
     background: var(--scanline-bg), linear-gradient(rgba(13, 17, 23, 0.9), rgba(22, 27, 34, 0.9));
     border: 1px solid var(--color-secondary-glow);
@@ -260,6 +271,50 @@ p {
     box-shadow: 0 0 20px rgba(0, 234, 255, 0.2);
     position: relative;
     z-index: 10;
+    
+    /* Altura padrão para o gráfico em telas de desktop */
+    height: 500px; 
+    max-width: 100%; /* Garante que não ultrapasse o container pai */
+}
+
+/* ---- RESPONSIVIDADE PARA TELAS PEQUENAS (CELULARES) ---- */
+@media (max-width: 768px) {
+    #nuclear-stockpile h3 {
+        font-size: 1.8rem; /* Diminui a fonte do título */
+    }
+
+    #nuclear-stockpile .interactive-hint {
+        font-size: 0.9rem; /* Diminui a fonte da dica */
+    }
+
+    .chart-container {
+        padding: 1rem; /* Menos espaçamento interno */
+        height: 400px; /* Gráfico um pouco mais baixo para caber melhor */
+    }
+}
+
+/* ---- RESPONSIVIDADE PARA TELAS GIGANTES (TELÕES) ---- */
+@media (min-width: 1800px) {
+    #nuclear-stockpile h3 {
+        font-size: 3rem; /* Aumenta a fonte do título */
+    }
+
+    #nuclear-stockpile .interactive-hint {
+        font-size: 1.3rem;
+    }
+
+    .chart-container {
+        /* Impede que o gráfico fique excessivamente largo */
+        max-width: 1600px; 
+        
+        /* Centraliza o container quando ele atingir a largura máxima */
+        margin-left: auto;
+        margin-right: auto;
+        
+        /* Um pouco mais de altura para aproveitar o espaço */
+        height: 650px; 
+        padding: 2rem;
+    }
 }
 
 .cards-container {
@@ -417,6 +472,7 @@ p {
     background-color: #000;
     border-radius: 5px;
     box-shadow: 0 0 30px var(--color-primary-glow), inset 0 0 20px rgba(255, 77, 77, 0.3);
+    overflow: hidden;
 }
 
 #map {
