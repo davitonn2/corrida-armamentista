@@ -38,6 +38,34 @@ body {
     overflow-x: hidden; /* Previne scroll horizontal */
 }
 
+/* =================================================================
+   2.1. CAMADA DE LINHAS VERTICAIS (EFEITO DE MONITOR)
+   ================================================================= */
+
+body::after {
+    content: '';
+    position: fixed; /* Fixo na tela, não rola com o conteúdo */
+    top: 0;
+    left: 0;
+    width: 100vw; /* 100% da largura da tela */
+    height: 100vh; /* 100% da altura da tela */
+
+    /* Cria as linhas verticais paralelas com um gradiente repetitivo */
+    background-image: repeating-linear-gradient(
+        to right, /* Direção do gradiente, que cria linhas verticais */
+        transparent,
+        transparent 150px, /* Espaço entre as linhas */
+        rgba(0, 234, 255, 0.05) 150px, /* Cor da linha (ciano bem sutil) */
+        rgba(0, 234, 255, 0.05) 151px /* Espessura da linha (1px) */
+    );
+
+    /* Garante que a camada de linhas não bloqueie cliques nos elementos do site */
+    pointer-events: none; 
+    
+    /* Coloca as linhas acima do fundo, mas atrás de todo o conteúdo */
+    z-index: 1; 
+}
+
 /* Animação de estática/ruído no fundo para dar um ar de monitor antigo */
 body::before {
     content: "";
@@ -68,7 +96,6 @@ body::before {
     justify-content: center;
     align-items: center;
     text-align: center;
-    border-bottom: 2px solid var(--color-primary-glow);
     box-shadow: 0 5px 30px -10px var(--color-primary-glow);
 }
 
@@ -129,12 +156,66 @@ body::before {
     animation: fadeInText 3s 1s both;
 }
 
+/* =================================================================
+   9. SETAS DE SCROLL ANIMADAS
+   ================================================================= */
+
+.scroll-down-container {
+    position: absolute;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    z-index: 2;
+}
+
+.arrow {
+    width: 0; 
+    height: 0; 
+    /* Cria a forma de seta usando bordas */
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 15px solid var(--color-secondary-glow); /* Usa o ciano para contraste */
+    
+    margin: -8px; /* Sobrepõe as setas para um visual contínuo */
+    
+    /* Adiciona o efeito de brilho neon */
+    filter: drop-shadow(0 0 5px var(--color-secondary-glow)) drop-shadow(0 0 15px var(--color-secondary-glow));
+    
+    /* Aplica a animação */
+    animation: bounce 2.2s infinite ease-in-out;
+}
+
+/* Adiciona um atraso na animação para cada seta, criando um efeito de cascata */
+.arrow:nth-child(2) {
+    animation-delay: -0.2s;
+}
+
+.arrow:nth-child(3) {
+    animation-delay: -0.4s;
+}
+
+/* Animação que move as setas para baixo e controla a opacidade */
+@keyframes bounce {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.8);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(30px) scale(1.2);
+    }
+}
+
 
 /* ---- 4. ESTILO GERAL DAS SEÇÕES ---- */
 section {
     padding: 6rem 0;
-    border-bottom: 1px solid rgba(255, 77, 77, 0.2);
-    background-color: var(--color-bg-offset);
+    /* A linha 'border-bottom' que estava aqui foi removida. */
+    background-color: var(--color-bg);
     position: relative;
 }
 
@@ -196,7 +277,6 @@ p {
 }
 
 
-/* ---- 6. LINHA DO TEMPO - EFEITO NEON ---- */
 /* ---- 6. LINHA DO TEMPO - ESTILO "DIAGRAMA DE MISSÃO" ---- */
 #timeline {
     background-color: var(--color-bg);
@@ -295,9 +375,8 @@ p {
 
 
 /* ---- 7. MAPA E SIMULAÇÃO - ESTILO "TERMINAL DE ALVO" ---- */
-/* ---- 7. MAPA E SIMULAÇÃO - ESTILO "TERMINAL DE ALVO" ---- */
 #simulation { /* Adicionei para garantir o contexto */
-    background: #212121;
+    background-color: var(--color-bg);
     text-align: center;
 }
 
@@ -334,13 +413,9 @@ p {
     pointer-events: none;
 }
 
-/* ============================================================= */
-/* ==== A CORREÇÃO ESTÁ AQUI ==== */
-/* Classe para esconder o círculo de impacto e outros elementos */
 .hidden {
     display: none !important;
 }
-/* ============================================================= */
 
 
 #reset-simulation-btn {
@@ -367,7 +442,7 @@ p {
 footer {
     text-align: center;
     padding: 2rem;
-    background-color: #000;
+    background-color: var(--color-bg);
     color: #888;
     font-size: 0.9rem;
     border-top: 1px solid #333;
@@ -375,7 +450,6 @@ footer {
 
 /* ---- ANIMAÇÕES ---- */
 
-/* Animação de Glitch (para o título) */
 @keyframes glitch {
     0%, 100% { transform: none; }
     5% { transform: skewX(2deg); }
