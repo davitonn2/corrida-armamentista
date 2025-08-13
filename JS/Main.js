@@ -1,50 +1,91 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    // ---- GRÁFICO DE OGIVAS NUCLEARES (Chart.js) ----
-    const chartElement = document.getElementById('nuclearChart');
-    if (chartElement) {
-        // ... (código do gráfico, sem alterações)
-        const nuclearData = {
-            labels: ['1945', '1950', '1955', '1960', '1965', '1970', '1975', '1980', '1985', '1990'],
-            usa: [6, 304, 3057, 20434, 31139, 26034, 27519, 24093, 23368, 21386],
-            ussr: [0, 5, 200, 1605, 6129, 11643, 19553, 30062, 39197, 37000]
-        };
-        const ctx = chartElement.getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: nuclearData.labels,
-                datasets: [{
-                    label: 'Ogivas dos EUA',
-                    data: nuclearData.usa,
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderWidth: 3,
-                    tension: 0.1,
-                    fill: true
-                }, {
-                    label: 'Ogivas da URSS',
-                    data: nuclearData.ussr,
-                    borderColor: 'rgba(255, 77, 77, 1)',
-                    backgroundColor: 'rgba(255, 77, 77, 0.2)',
-                    borderWidth: 3,
-                    tension: 0.1,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { labels: { color: '#f0f0f0', font: { size: 14 } } },
-                    tooltip: { mode: 'index', intersect: false }
+   // ---- GRÁFICO DE OGIVAS NUCLEARES (Chart.js) ----
+const chartElement = document.getElementById('nuclearChart');
+if (chartElement) {
+    const nuclearData = {
+        labels: ['1945', '1950', '1955', '1960', '1965', '1970', '1975', '1980', '1985', '1990'],
+        usa: [6, 304, 3057, 20434, 31139, 26034, 27519, 24093, 23368, 21386],
+        ussr: [0, 5, 200, 1605, 6129, 11643, 19553, 30062, 39197, 37000]
+    };
+
+    // Cores baseadas nas variáveis do seu CSS para consistência visual
+    const usaColor = 'rgba(0, 234, 255, 1)';   // Corresponde a --color-secondary-glow
+    const ussrColor = 'rgba(255, 77, 77, 1)';   // Corresponde a --color-primary-glow
+    const textColor = '#c9d1d9';                // Corresponde a --color-text
+    const gridColor = 'rgba(201, 209, 217, 0.1)'; // Cor do texto com baixa opacidade
+
+    const ctx = chartElement.getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: nuclearData.labels,
+            datasets: [{
+                label: 'Ogivas dos EUA',
+                data: nuclearData.usa,
+                borderColor: usaColor,
+                backgroundColor: usaColor.replace('1)', '0.2)'), // Usa a mesma cor com 20% de opacidade
+                borderWidth: 3,
+                tension: 0.4, // Aumentado para uma curva mais suave e "sci-fi"
+                fill: true,
+                pointBackgroundColor: usaColor,
+                pointBorderColor: '#fff',
+                pointHoverRadius: 7,
+                pointHoverBorderWidth: 2,
+            }, {
+                label: 'Ogivas da URSS',
+                data: nuclearData.ussr,
+                borderColor: ussrColor,
+                backgroundColor: ussrColor.replace('1)', '0.2)'), // Usa a mesma cor com 20% de opacidade
+                borderWidth: 3,
+                tension: 0.4, // Aumentado para uma curva mais suave e "sci-fi"
+                fill: true,
+                pointBackgroundColor: ussrColor,
+                pointBorderColor: '#fff',
+                pointHoverRadius: 7,
+                pointHoverBorderWidth: 2,
+            }]
+        },
+        options: {
+            // ESSENCIAL: Permite que o CSS controle as dimensões do gráfico sem distorção
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: textColor,
+                        font: {
+                            family: "'Share Tech Mono', monospace", // Usa a fonte do tema
+                            size: 14
+                        }
+                    }
                 },
-                scales: {
-                    y: { beginAtZero: true, ticks: { color: '#f0f0f0' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
-                    x: { ticks: { color: '#f0f0f0' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    backgroundColor: 'rgba(13, 17, 23, 0.9)', // Fundo do tooltip
+                    titleFont: { family: "'Orbitron', sans-serif", size: 16 },
+                    bodyFont: { family: "'Share Tech Mono', monospace", size: 14 },
+                    padding: 15,
+                    cornerRadius: 5,
+                    borderWidth: 1,
+                    borderColor: gridColor
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { color: textColor, font: { family: "'Share Tech Mono', monospace" } },
+                    grid: { color: gridColor }
+                },
+                x: {
+                    ticks: { color: textColor, font: { family: "'Share Tech Mono', monospace" } },
+                    grid: { color: gridColor }
                 }
             }
-        });
-    }
+        }
+    });
+}
 
 
     // ---- LINHA DO TEMPO INTERATIVA ----
